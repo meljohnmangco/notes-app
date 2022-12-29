@@ -31,6 +31,7 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/root'))
 app.use('/users', require('./routes/userRoutes'))
+app.use('/notes', require('./routes/noteRoutes'))
 
 //handles Errors if user requests are not found or if the it did not match any of the routes
 app.all('*', (req, res) => {
