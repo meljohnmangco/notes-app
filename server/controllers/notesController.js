@@ -71,7 +71,7 @@ const updateNote = asyncHandler(async (req, res) => {
 	}
 
 	// check for duplicate title 
-	const duplicate = await Note.findOne({ title }).lean().exec
+	const duplicate = await Note.findOne({ title }).lean().exec()
 
 	// input unique title
 	if(duplicate && duplicate?._id.toString() !== id) {
@@ -92,5 +92,30 @@ const updateNote = asyncHandler(async (req, res) => {
 // @route DELETE /notes
 // @access Private
 const deleteNote = asyncHandler(async (req, res) => {
-	
+	const { id } = req.body
+
+	//confirm data
+	if(!id) {
+		return res.status(400).json({ message: 'Note ID Required' })
+	}
+
+	// confirm if note exists to delete 
+	const note = await Note.findById(id).exec()
+
+	if(!note) {
+		return res.status(400).json({ message: 'Note not found' })
+	}
+
+	const result = await note.deleteOne()
+
+	const reply = `Note '${result.title}' with ID ${result._id} deleted`
+
+	res.json(reply)
 })
+
+module.exports = {
+	getAllNotes,
+	createNewNote,
+	updateNote,
+	deleteNote
+}
