@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react'
 import { useUpdateNoteMutation, useDeleteNoteMutation } from "./notesApiSlice"
 import { useNavigate } from "react-router-dom"
 import { FaSave, FaTrash } from 'react-icons/fa'
+import useAuth from '../../hooks/useAuth'
 
 const EditNoteForm = ({ note, users }) => {
+	const { isManager, isAdmin } = useAuth()
+
 	const [updateNote, {
 		isLoading,
 		isSuccess,
@@ -66,6 +69,18 @@ const EditNoteForm = ({ note, users }) => {
 
 	const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
 
+	let deleteButton = null
+	if (isManager || isAdmin) {
+		deleteButton = (
+			<button
+				className="icon-button"
+				title="Delete"
+				onClick={onDeleteNoteClicked}
+			>
+				<FaTrash />
+			</button>
+		)
+	}
 	const content = (
 		<>
 			<p className={errClass}>{errContent}</p>
@@ -82,14 +97,7 @@ const EditNoteForm = ({ note, users }) => {
 						>
 							<FaSave />
 						</button>
-						<button
-							className="icon-button"
-							title="Delete"
-							onClick={onDeleteNoteClicked}
-							disabled={!canSave}
-						>
-							<FaTrash />
-						</button>
+						{deleteButton}
 					</div>
 				</div>
 

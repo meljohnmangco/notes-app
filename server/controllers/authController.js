@@ -65,10 +65,10 @@ const refresh = (req, res) => {
     jwt.verify (
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
-        asyncHandler(async (err, decoded) => {
+        async (err, decoded) => {
             if (err) return res.status(403).json({ message: 'Forbidden' })
 
-            const foundUser = await User.findOne({ message: decoded.username }).exec()
+            const foundUser = await User.findOne({ username: decoded.username }).exec()
 
             if(!foundUser) return res.status(401).json({ message: 'Unauthorized' })
 
@@ -84,7 +84,7 @@ const refresh = (req, res) => {
             )
 
             res.json({ accessToken })
-        })
+        }
     )
 }
 
