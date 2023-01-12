@@ -36,13 +36,13 @@ const createNewNote = asyncHandler(async (req, res) => {
 	}
 
 	//check for duplicate title
-	const duplicate = await Note.findOne({ title }).lean().exec()
+	const duplicate = await Note.findOne({ title }).collation({ locale: 'en', strength: 2 }).lean().exec() // case insensitive
 
 	if(duplicate) {
 		return res.status(409).json({ message: 'Note Title already existed'})
 	}
 
-	// create and store the new user
+	// create and store the new note
 	const note = await Note.create({ user, title, text })
 	if (note) { //note creation
 		return res.status(201).json({ message: 'New note created' })
@@ -71,7 +71,7 @@ const updateNote = asyncHandler(async (req, res) => {
 	}
 
 	// check for duplicate title 
-	const duplicate = await Note.findOne({ title }).lean().exec()
+	const duplicate = await Note.findOne({ title }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
 	// input unique title
 	if(duplicate && duplicate?._id.toString() !== id) {
