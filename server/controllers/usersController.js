@@ -71,6 +71,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 	// check for duplicate username
 	const duplicate = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec() // collation make the inputs case insensitive
+	
 	// Allow updates to the original user
 	if(duplicate && duplicate?._id.toString() !== id) {
 		return res.status(409).json({ message: 'Username is already used' })

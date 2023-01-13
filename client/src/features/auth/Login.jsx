@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-
+import SyncLoader from 'react-spinners/SyncLoader'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
@@ -57,7 +57,7 @@ const Login = () => {
 
 	const errClass = errMsg ? "errmsg" : "offscreen"
 
-	if(isLoading) return <p>Loading...</p>
+	if(isLoading) return <SyncLoader color={"#FFF"} />
 
 	const content = (
 		<section className="public">

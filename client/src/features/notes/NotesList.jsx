@@ -1,6 +1,7 @@
 import { useGetNotesQuery } from './notesApiSlice' 
 import Note from './Note'
 import useAuth from '../../hooks/useAuth'
+import SyncLoader from 'react-spinners/SyncLoader'
 
 
 const NotesList = () => {
@@ -21,7 +22,7 @@ const NotesList = () => {
 
 	let content
 
-	if (isLoading) content = <p>Loading...</p>
+	if (isLoading) content = <SyncLoader color={"#FFF"} />
 
 	if (isError) {
      	content = <p className="errmsg">{error?.data?.message}</p>

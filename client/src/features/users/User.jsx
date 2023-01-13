@@ -1,11 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import { BiEdit } from 'react-icons/bi'
+import { memo } from 'react'
+import { useGetUsersQuery } from './usersApiSlice'
 
-import { useSelector } from 'react-redux'
-import { selectUserById } from './usersApiSlice'
 
 const User = ({ userId }) => {
-	const user = useSelector(state => selectUserById(state,userId))
+	const { user } = useGetUsersQuery('usersList', {
+		selectFromResult: ({ data }) => ({
+			user: data?.entities[userId]
+		}),
+	})
 
 	const navigate = useNavigate()
 
@@ -35,5 +39,6 @@ const User = ({ userId }) => {
 
 	} else return null
 }
+const memoizedUser = memo(User)
 
-export default User
+export default memoizedUser

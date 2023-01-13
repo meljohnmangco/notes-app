@@ -1,4 +1,5 @@
 import { useGetUsersQuery } from "./usersApiSlice"	
+import SyncLoader from 'react-spinners/SyncLoader'
 import User from './User'
 
 
@@ -18,7 +19,7 @@ const UsersList = () => {
 
 	let content
 
-	if (isLoading) content = <p>Loading...</p>
+	if (isLoading) content = <SyncLoader color={"#FFF"} />
 
  	if (isError) {
      	content = <p className="errmsg">{error?.data?.message}</p>
