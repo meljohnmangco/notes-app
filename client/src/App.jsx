@@ -15,6 +15,7 @@ import PersistLogin from './features/auth/PersistLogin'
 import RequireAuth from './features/auth/RequireAuth'
 import { ROLES } from './config/roles'
 import useTitle from './hooks/useTitle'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   useTitle('El Machine Shop')
