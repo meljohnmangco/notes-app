@@ -34,6 +34,12 @@ app.use('/auth', require('./routes/authRoutes'))
 app.use('/users', require('./routes/userRoutes'))
 app.use('/notes', require('./routes/noteRoutes'))
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+
+
 //handles Errors if user requests are not found or if the it did not match any of the routes
 app.all('*', (req, res) => {
 	res.status(404)
